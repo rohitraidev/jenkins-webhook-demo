@@ -61,7 +61,7 @@ pipeline {
             echo 'Website deployment successful!'
 
             slackSend(
-                channel: '#jjenkins-builds-yt',
+                channel: '#jenkins-builds-yt',
                 color: 'good',
                 message: """
 ✅ Jenkins Build SUCCESS
