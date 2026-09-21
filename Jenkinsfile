@@ -2,10 +2,9 @@ pipeline {
     agent {
         label 'control-built-in'
     }
-    options {
+      options {
         skipDefaultCheckout(true)
     }
- 
 
     stages {
 
@@ -60,10 +59,54 @@ pipeline {
     post {
         success {
             echo 'Website deployment successful!'
+
+            slackSend(
+                channel: '#jjenkins-builds-yt',
+                color: 'good',
+                message: """
+✅ Jenkins Build SUCCESS
+
+Job: ${env.JOB_NAME}
+Build: #${env.BUILD_NUMBER}
+Status: ${currentBuild.currentResult}
+
+Website deployment completed successfully.
+
+🌐 Website URL:
+http://${env.SERVER_IP}:80
+
+🔗 Jenkins Build:
+${env.BUILD_URL}
+""",
+                tokenCredentialId: 'slack-token',
+                botUser: true
+            )
         }
 
         failure {
             echo 'Website deployment failed!'
+
+            slackSend(
+                channel: '#jenkins-builds-yt',
+                color: 'danger',
+                message: """
+❌ Jenkins Build FAILED
+
+Job: ${env.JOB_NAME}
+Build: #${env.BUILD_NUMBER}
+Status: ${currentBuild.currentResult}
+
+Website deployment failed.
+
+🌐 Server:
+http://${env.SERVER_IP}:80
+
+🔗 Jenkins Build:
+${env.BUILD_URL}
+""",
+                tokenCredentialId: 'slack-token',
+                botUser: true
+            )
         }
     }
 }
