@@ -3,9 +3,7 @@ pipeline {
         label 'control-built-in'
     }
 
-    options {
-        skipDefaultCheckout(true)
-    }
+ 
 
     stages {
 
