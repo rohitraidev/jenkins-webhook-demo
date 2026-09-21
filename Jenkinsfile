@@ -47,7 +47,7 @@ pipeline {
                 sh '''
                     echo "Checking website..."
 
-                    curl -f http://localhost:9999
+                    curl -f http://localhost
 
                     echo ""
                     echo "Website is working!"
